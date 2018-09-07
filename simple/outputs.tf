@@ -1,5 +1,3 @@
-# Output the private and public IPs of the instance
-
 output "BastionPublicIP" {
   value = ["${data.oci_core_vnic.BastionVnic.public_ip_address}"]
 }

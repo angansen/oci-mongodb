@@ -1,45 +1,60 @@
-    #     ___  ____     _    ____ _     _____
-    #    / _ \|  _ \   / \  / ___| |   | ____|
-    #   | | | | |_) | / _ \| |   | |   |  _|
-    #   | |_| |  _ < / ___ | |___| |___| |___
-    #    \___/|_| \_/_/   \_\____|_____|_____|
-***
-## MongoDB Infrastructure
-This configuration generally implements this - [https://community.oracle.com/community/cloud_computing/bare-metal/blog/2017/01/12/secure-mongodb-on-oracle-bare-metal-cloud-services](https://community.oracle.com/community/cloud_computing/bare-metal/blog/2017/01/12/secure-mongodb-on-oracle-bare-metal-cloud-services)
+# Important - This doesn't work yet!
 
-It creates a VNC with a route table, Internet Gateway, Security Lists, a bastion subnet and 2 private subnets for the MongoDB instances. 
+# oci-mongodb
+[simple](simple) is a Terraform module that will deploy MongoDB on OCI. Instructions on how to use it are below.
 
-### Using this example
-* Update env-vars with the required information. Most examples use the same set of environment variables so you only need to do this once.
-* Source env-vars
-  * `$ . env-vars`
-* Update `variables.tf` with your instance options.
+## Prerequisites
+First off you'll need to do some pre deploy setup.  That's all detailed [here](https://github.com/cloud-partners/oci-prerequisites).
 
-### Files in the configuration
+## Clone the Module
+Now, you'll want a local copy of this repo.  You can make that with the commands:
 
-#### `env-vars`
-Is used to export the environmental variables used in the configuration. These are usually authentication related, be sure to exclude this file from your version control system. It's typical to keep this file outside of the configuration.
+    git clone https://github.com/cloud-partners/oci-mongodb.git
+    cd oci-mongodb/simple
+    ls
 
-Before you plan, apply, or destroy the configuration source the file -  
-`$ . env-vars`
+That should give you this:
 
-#### `compute.tf`
-Defines the compute resource
+![](./images/1%20-%20git%20clone.png)
 
-#### `remote-exec.tf`
-Uses a `null_resource`, `remote-exec` and `depends_on` to execute a command on the instance. [More information on the remote-exec provisioner.](https://www.terraform.io/docs/provisioners/remote-exec.html) 
+We now need to initialize the directory with the module in it.  This makes the module aware of the OCI provider.  You can do this by running:
 
-#### `./userdata/*`
-The user-data scripts that get injected into an instance on launch. More information on user-data scripts can be [found at the cloud-init project.](https://cloudinit.readthedocs.io/en/latest/topics/format.html)
+    terraform init
 
-#### `variables.tf`
-Defines the variables used in the configuration
+This gives the following output:
 
-#### `datasources.tf`
-Defines the datasources used in the configuration
+![](./images/2%20-%20terraform%20init.png)
 
-#### `outputs.tf`
-Defines the outputs of the configuration
+## Deploy
+Now for the main attraction.  Let's make sure the plan looks good:
 
-#### `provider.tf`
-Specifies and passes authentication details to the OCI TF provider
+    terraform plan
+
+That gives:
+
+![](./images/3%20-%20terraform%20plan.png)
+
+If that's good, we can go ahead and apply the deploy:
+
+    terraform apply
+
+You'll need to enter `yes` when prompted.  Once complete, you'll see something like this:
+
+![](./images/4%20-%20terraform%20apply.png)
+
+## Connect to the Cluster
+Todo
+
+## SSH to a Node
+These machines are using Oracle Enterprise Linux (OEL).  The default login is opc.  You can SSH into the machine with a command like this:
+
+    ssh -i ~/.ssh/oci opc@<Public IP Address>
+
+## Destroy the Deployment
+When you no longer need the deployment, you can run this command to destroy it:
+
+    terraform destroy
+
+You'll need to enter `yes` when prompted.  Once complete, you'll see something like this:
+
+![](./images/5%20-%20terraform%20destroy.png)
