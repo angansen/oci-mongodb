@@ -12,9 +12,9 @@ chkconfig firewalld off
 #######################################################"
 echo "Installing MongoDB..."
 
-echo"[mongodb-enterprise]
+echo "[mongodb-enterprise]
 name=MongoDB Enterprise Repository
-baseurl=https://repo.mongodb.com/yum/redhat/$releasever/mongodb-enterprise/4.0/$basearch/
+baseurl=https://repo.mongodb.com/yum/redhat/7/mongodb-enterprise/4.0/x86_64/
 gpgcheck=1
 enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc" > /etc/yum.repos.d/mongodb-enterprise.repo
