@@ -31,3 +31,4 @@ echo "Installing Ops Manager..."
 curl -O https://downloads.mongodb.com/on-prem-mms/rpm/mongodb-mms-4.0.4.50216.20181012T0121Z-1.x86_64.rpm
 rpm -ivh mongodb-mms-4.0.4.50216.20181012T0121Z-1.x86_64.rpm
 service mongodb-mms start
+chkconfig mongodb-mms on

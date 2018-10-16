@@ -29,4 +29,4 @@ data "oci_core_vnic" "mongodb_vnic" {
 }
 
 output "MongoDB Connection String" { value = "mongodb://username:password@${data.oci_core_vnic.mongodb_vnic.public_ip_address}:27017/" }
-output "Ops Manager URL" { value = "http://${data.oci_core_vnic.mongodb_vnic.public_ip_address}:8080/" }
+output "Ops Manager URL" { value = "http://${data.oci_core_vnic.mongodb_vnic.public_ip_address}:8080" }
